@@ -12,7 +12,8 @@
             padding: 0;
             font-family: Arial, sans-serif;
             display: flex;
-            line-height: 1.5;
+            line-height: 1.3;
+            text-align: justify;
         }
 
         nav {
@@ -66,7 +67,65 @@
         }
 
         main {
+            overflow-y: auto;
             padding: 3rem 4rem;
+        }
+
+        @media (max-width: 1050px) {
+            body {
+                flex-direction: column;
+            }
+
+            nav {
+                width: 100%;
+                min-width: 100%;
+                min-height: 100px;
+                box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+            }
+
+            nav .header {
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+            }
+
+            nav img {
+                margin-right: 2rem;
+            }
+
+            nav h3 {
+                margin-top: 0;
+            }
+        }
+
+        @media (max-width: 650px) {
+            nav img {
+                width: 180px;
+                height: 180px;
+            }
+
+            nav .header {
+                margin-bottom: 2rem;
+            }
+
+            nav .footer {
+                display: none;
+            }
+        }
+
+        @media (max-width: 580px) {
+            nav .header {
+                flex-direction: column;
+            }
+
+            nav img {
+                margin-right: 0;
+                margin-bottom: 2rem;
+            }
+
+            nav .header div {
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -74,10 +133,13 @@
     <nav>
         <div class="header">
             <img src="https://avatars.githubusercontent.com/u/32142925?v=4" alt="Victor Vitória Fontenele">
-            <h3>Victor Vitória Fontenele</h3>
-            <p>Formado em Ciência da Computação (2015 - 2019)</p>
-            <p>Desenvolvedor Full Stack na <a href="https://www.retake.com.br/" target="_blank">Retake</a> (2020 - Indefinido)</p>
-            <p>Criador do <a href="https://taps.app.br/" target="_blank">Taps.app.br</a></p>
+
+            <div>
+                <h3>Victor Vitória Fontenele</h3>
+                <p>Formado em Ciência da Computação (2015 - 2019)</p>
+                <p>Desenvolvedor Full Stack na <a href="https://www.retake.com.br/" target="_blank">Retake</a> (2020 - Indefinido)</p>
+                <p>Criador do <a href="https://taps.app.br/" target="_blank">Taps.app.br</a></p>
+            </div>
         </div>
 
         <div class="footer">
@@ -86,11 +148,10 @@
     </nav>
     <main>
         <article>
-            <p>
-                Olá, seja bem-vindo ao meu blog. Aqui você encontrará informações sobre meus estudos. Irei compartilhar semanalmente 
-                o que venho estudando (normalmente irá ser algo aleatório, mas sempre relacionado a programação). O conteúdo compartilhado 
-                aqui estará disponível para comentários por meio de issues no <a href="https://github.com/victorvf/victorvf.github.io/issues" target="_blank">repositório</a> deste blog no GitHub.
-            </p>
+            <p><b>Olá, seja bem-vindo ao meu blog!</b></p>
+            <p style="margin-bottom: .75rem;">Aqui, compartilho meus aprendizados e reflexões sobre tecnologia e desenvolvimento de software. Os temas podem variar, mas sempre estarão relacionados à programação e boas práticas da área.</p>
+            <p style="margin: 0;">Cada post do blog corresponde a uma issue no <a href="https://github.com/victorvf/victorvf.github.io/issues" target="_blank">repositório</a> do GitHub. Se quiser contribuir com a discussão, fique à vontade para deixar seu comentário na issue correspondente.</p>
+            <p>Aproveite o conteúdo e boa leitura!</p>
         </article>
 
         <hr>
