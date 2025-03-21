@@ -12,15 +12,16 @@
             padding: 0;
             font-family: Arial, sans-serif;
             display: flex;
-            line-height: 1.3;
+            line-height: 1.5;
             text-align: justify;
         }
 
         nav {
+            position: fixed;
             color: #fff;
             width: 460px;
             min-width: 460px;
-            min-height: 100vh;
+            height: 100vh;
             background-color: #2980B9;
             padding: auto 1.5rem;
             display: flex;
@@ -68,7 +69,19 @@
 
         main {
             overflow-y: auto;
-            padding: 3rem 4rem;
+            padding-left: calc(460px + 4rem);
+            padding-right: 4rem;
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        pre {
+            background-color: #f6f8fa;
+            border-radius: 6px;
+            padding: 1rem;
+            border: 1px solid #d0d7de;
+            overflow-x: auto;
+            font-size: 90%;
         }
 
         @media (max-width: 1050px) {
@@ -77,9 +90,10 @@
             }
 
             nav {
+                position: relative;
                 width: 100%;
                 min-width: 100%;
-                min-height: 100px;
+                height: 400px;
                 box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
             }
 
@@ -96,9 +110,17 @@
             nav h3 {
                 margin-top: 0;
             }
+
+            main {
+                padding: 3rem 4rem;
+            }
         }
 
         @media (max-width: 650px) {
+            nav { 
+                height: 300px;
+            }
+
             nav img {
                 width: 180px;
                 height: 180px;
@@ -111,9 +133,18 @@
             nav .footer {
                 display: none;
             }
+            
+            main {
+                padding: 3rem 4rem;
+            }
+
         }
 
         @media (max-width: 580px) {
+            nav {
+                height: 450px;
+            }
+
             nav .header {
                 flex-direction: column;
             }
@@ -125,6 +156,10 @@
 
             nav .header div {
                 text-align: center;
+            }
+
+            main {
+                padding: 3rem 2rem;
             }
         }
     </style>
@@ -157,8 +192,86 @@
         <hr>
 
         <article>
-            <h2>Semana 01</h2>
-            <p>Em desenvolvimento</p>
+            <h2>Como eu migrei para o NeoVim sem querer:</h2>
+            <p>Ao longo destes meus míseros ~9 anos de codificação, eu sempre utilizei o VSCode (ainda brinquei um pouco no Sublime) como minha principal ferramenta. Gosto da simplicidade, leveza (se comparado a outras do mesmo nicho) e da possibilidade de customização e incrementos que ele me fornece. Sempre salvava as configurações de usuário no Gist ou em algum arquivo de fácil acesso para, quando precisasse configurar, tê-lo do jeito que gosto.</p>
+            <p>Porém, nos últimos meses, com a agilidade que as IAs trazem ao facilitar o trabalho chato (autocompletes meio óbvios que irão acontecer, trabalho repetitivo), o fato de que essas mesmas IAs não vieram para nos substituir, mas sim para aumentar a quantidade de trabalho (principalmente para aproveitar o momento dos investimentos) e a exaustão do trabalho repetitivo (mais uma vez ele aqui), resolvi tentar mudar um pouco o contexto do meu trabalho diário para ver se me distraía um pouco. Inclusive, essa é uma prática que tento manter sempre que me pego no poço sem fundo da repetição: tento mudar um pouco o contexto para conhecer novas ferramentas, métodos etc. Parece que isso traz a magia novamente.</p>
+            <p>Foi então que resolvi testar o <a href="https://neovim.io/" target="_blank">NeoVim</a>. Sempre que preciso atualizar algo via <a href="https://iterm2.com/" target="_blank">terminal</a>, utilizo o Vim (desculpa galera do Nano, ele não é minha praia). Procurei como instalar e comecei a brincar: instalei um plugin ali, outro aqui, testei configurações já predefinidas, como o <a href="https://www.lazyvim.org/" target="_blank">LazyVim…</a> Depois de alguns testes, decidi que utilizaria o NeoVim da forma mais simples possível, com apenas alguns poucos plugins instalados (postarei ao final o arquivo de configuração). Comecei a achá-lo bem interessante — principalmente depois que o YouTube, não magicamente, começou a me sugerir vários vídeos sobre o assunto. Você fica parecendo uma criança: “Nossa, eu consegui copiar isto! Eu consegui atualizar isso em lote!”. É uma sensação boa de progresso.</p>
+            <p>O principal ponto que me fez permanecer no NeoVim foi a capacidade de isolar contextos. A base de código em que trabalho exige, às vezes, algumas mudanças de contexto. No VSCode, é possível deixar as abas abertas, mas, como elas ficam todas visíveis, isso me desconcentra um pouco. Já com o Terminal + NeoVim, eu abro uma nova aba do terminal e deixo um contexto isolado no NeoVim. Ou seja, as abas desse contexto não ficam visíveis quando mudo de aba no terminal — e isso foi o meu potinho de ouro.</p>
+            <p>Minhas config:</p>
+            <pre>
+" Foras as configurações abaixo, também utilizo o https://github.com/github/copilot.vim
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release' }
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.8' }
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'ayu-theme/ayu-vim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'airblade/vim-gitgutter'
+Plug 'mbbill/undotree'
+
+call plug#end()
+
+
+" Configurações básicas
+set colorcolumn=80,120
+set number
+set relativenumber
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set autoindent
+set clipboard=unnamedplus
+set termguicolors
+set incsearch
+
+
+" Tema
+let ayucolor="light"
+colorscheme ayu
+
+
+" Mapeamentos de teclas
+nnoremap &lt;leader&gt;ff &lt;cmd&gt;Telescope find_files&lt;cr&gt;
+nnoremap &lt;leader&gt;fg &lt;cmd&gt;Telescope live_grep&lt;cr&gt;
+nnoremap &lt;leader&gt;fb &lt;cmd&gt;Telescope buffers&lt;cr&gt;
+nnoremap &lt;leader&gt;fh &lt;cmd&gt;Telescope help_tags&lt;cr&gt;
+
+nnoremap &lt;F5&gt; :UndotreeToggle&lt;CR&gt;
+
+
+" Configurações em LUA
+lua &lt;&lt; EOF
+require("mason").setup()
+require("mason-lspconfig").setup({
+    ensure_installed = { "pyright" },
+})
+require'lspconfig'.pyright.setup{}
+
+local cmp = require'cmp'
+
+cmp.setup({
+    mapping = cmp.mapping.preset.insert({
+    ['&lt;C-Space&gt;'] = cmp.mapping.complete(),
+    ['&lt;CR&gt;'] = cmp.mapping.confirm({ select = true }),
+    }),
+    sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'buffer' },
+    { name = 'path' },
+    }),
+})
+EOF
+            </pre>
+            <p>Espero que vocês tenham gostado! Apenas uma pequena reflexão sobre mudança de contexto para sair um pouco da rotina — e, claro, sobre como o NeoVim é muito bom. Abraços!</p>
         </article>
     </main>
 </body>
