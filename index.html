@@ -173,7 +173,7 @@
                 <h3>Victor Vitória Fontenele</h3>
                 <p>Formado em Ciência da Computação (2015 - 2019)</p>
                 <p>Desenvolvedor Full Stack na <a href="https://www.retake.com.br/" target="_blank">Retake</a> (2020 - Indefinido)</p>
-                <p>Criador do <a href="https://taps.app.br/" target="_blank">Taps.app.br</a></p>
+                <p>Criador do <a href="https://taps.app.br/" target="_blank">Taps.app.br</a> & <a href="https://github.com/victorvf/simple-git-status.nvim" target="_blank">simple-git-status.nvim</a></p>
             </div>
         </div>
 
@@ -217,6 +217,8 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'airblade/vim-gitgutter'
 Plug 'mbbill/undotree'
+Plug 'folke/tokyonight.nvim', { 'tag': 'main' }
+Plug 'victorvf/simple-git-status.nvim'
 
 call plug#end()
 
@@ -228,7 +230,6 @@ set relativenumber
 set tabstop=4
 set shiftwidth=4
 set expandtab
-set autoindent
 set clipboard=unnamedplus
 set termguicolors
 set incsearch
@@ -237,37 +238,57 @@ set incsearch
 " Tema
 let ayucolor="light"
 colorscheme ayu
+" colorscheme tokyonight
 
 
 " Mapeamentos de teclas
 nnoremap &lt;leader&gt;ff &lt;cmd&gt;Telescope find_files&lt;cr&gt;
+nnoremap &lt;leader&gt;fc &lt;cmd&gt;Telescope find_files cwd=%:p:h&lt;cr&gt;
 nnoremap &lt;leader&gt;fg &lt;cmd&gt;Telescope live_grep&lt;cr&gt;
 nnoremap &lt;leader&gt;fb &lt;cmd&gt;Telescope buffers&lt;cr&gt;
 nnoremap &lt;leader&gt;fh &lt;cmd&gt;Telescope help_tags&lt;cr&gt;
+nnoremap &lt;leader&gt;fo &lt;cmd&gt;Telescope oldfiles&lt;cr&gt;
 
+vnoremap &lt;C-c&gt; "+y
 nnoremap &lt;F5&gt; :UndotreeToggle&lt;CR&gt;
+nnoremap &lt;C-S-]&gt; :vsp&lt;CR&gt;&lt;C-w&gt;l&lt;C-]&gt;
+
+
+" Configura as cores dos signs do gitgutter
+highlight GitGutterAdd guibg=#a8cc8c guifg=#282c34 ctermbg=green ctermfg=black
+highlight GitGutterChange guibg=#e5c07b guifg=#282c34 ctermbg=yellow ctermfg=black
+highlight GitGutterDelete guibg=#e06c75 guifg=#282c34 ctermbg=red ctermfg=black
+highlight GitGutterChangeLine guibg=#61afef guifg=#282c34 ctermbg=blue ctermfg=black
+highlight GitGutterDeleteLine guibg=#abb2bf guifg=#282c34 ctermbg=gray ctermfg=black
+
+let g:gitgutter_sign_added = '➜'
+let g:gitgutter_sign_modified = '➜'
+let g:gitgutter_sign_removed = '➜'
+let g:gitgutter_sign_modified_removed = '➜'
+let g:gitgutter_sign_removed_firstline = '➜'
+let g:gitgutter_sign_modified_firstline = '➜'
 
 
 " Configurações em LUA
 lua &lt;&lt; EOF
 require("mason").setup()
 require("mason-lspconfig").setup({
-    ensure_installed = { "pyright" },
+  ensure_installed = { "pyright" },
 })
-require'lspconfig'.pyright.setup{}
+require('lspconfig').pyright.setup {}
 
 local cmp = require'cmp'
 
 cmp.setup({
-    mapping = cmp.mapping.preset.insert({
+  mapping = cmp.mapping.preset.insert({
     ['&lt;C-Space&gt;'] = cmp.mapping.complete(),
     ['&lt;CR&gt;'] = cmp.mapping.confirm({ select = true }),
-    }),
-    sources = cmp.config.sources({
+  }),
+  sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'buffer' },
     { name = 'path' },
-    }),
+  }),
 })
 EOF
             </pre>
